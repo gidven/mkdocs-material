@@ -18,7 +18,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-name: documentation
+name: publish docs
 on:
   push:
     branches:
@@ -29,28 +29,26 @@ env:
 
 jobs:
   documentation:
-    name: Build documentation
+    name: publish docs
     runs-on: ubuntu-latest
     steps:
 
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Python runtime
+      - name: set up python
         uses: actions/setup-python@v1
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Install Python dependencies
+      - name: intall python dependencies
         run: |
           pip install .
           pip install \
             mkdocs-minify-plugin>=0.3 \
             mkdocs-redirects>=1.0
 
-      - name: Deploy documentation
-        env:
-          GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
+      - name: deploy docs
         run: |
           mkdocs gh-deploy --force
           mkdocs --version
